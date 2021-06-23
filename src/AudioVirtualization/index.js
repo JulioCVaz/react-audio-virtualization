@@ -54,7 +54,11 @@ const hostConfig = {
         domElement.setAttribute(propName, propValue);
       }
     });
-    domElement.addEventListener("play", () => console.log("tocar"));
+    domElement.addEventListener(
+      "play",
+      () => {}
+      // requestAnimationFrame(renderFrame)
+    );
     return domElement;
   },
   createTextInstance: () => {},

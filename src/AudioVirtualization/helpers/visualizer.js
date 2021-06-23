@@ -1,8 +1,6 @@
 import { renderFrame } from "./renderFrame";
 
 export const createVisualiser = (player, visualiser) => {
-  console.log("createVisualiser");
-  console.log([player, visualiser]);
   const audioContext = new AudioContext();
   const context = audioContext.createMediaElementSource(player);
   const analyser = audioContext.createAnalyser();
