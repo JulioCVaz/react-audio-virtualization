@@ -1,4 +1,6 @@
 import reconciler from "react-reconciler";
+import { createVisualiser } from "./helpers/visualizer";
+import { renderFrame } from "./helpers/renderFrame";
 
 function traceWrap(hostConfig) {
   let traceWrappedHostConfig = {};
@@ -16,6 +18,7 @@ function traceWrap(hostConfig) {
 
 const rootHostContext = {};
 const childHostContext = {};
+const visualizerContext = {};
 
 const hostConfig = {
   now: Date.now, // optional?
@@ -51,6 +54,7 @@ const hostConfig = {
         domElement.setAttribute(propName, propValue);
       }
     });
+    domElement.addEventListener("play", () => console.log("tocar"));
     return domElement;
   },
   createTextInstance: () => {},
@@ -63,12 +67,24 @@ const hostConfig = {
   appendChildToContainer: (parent, child) => {
     parent.appendChild(child);
   },
-  finalizeInitialChildren: (domElement, type, props) => {},
+  finalizeInitialChildren: (domElement, type, props) => {
+    if (props?.id === "player") {
+      visualizerContext.player = domElement;
+    }
+
+    if (props?.id === "canvas") {
+      visualizerContext.visualiser = domElement;
+    }
+
+    if (visualizerContext.player && visualizerContext.visualiser) {
+      createVisualiser(visualizerContext.player, visualizerContext.visualiser);
+    }
+  },
   prepareUpdate(domElement, prevProps, nextProps) {
+    console.log("prepareUpdate....");
     return true;
   },
   commitUpdate: (domElement, updatePayload, type, oldProps, newProps) => {
-    console.log([type, oldProps, newProps]);
     Object.keys(newProps).forEach((propName) => {
       const propValue = newProps[propName];
       if (propName === "children") {

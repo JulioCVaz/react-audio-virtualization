@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import music from "./assets/musics/home.mp3";
 
 class App extends Component {
   constructor(props) {
@@ -9,25 +10,12 @@ class App extends Component {
   }
   render() {
     return (
-      <div className="App">
-        <p className="App-intro">
-          <div className="button-container">
-            <button
-              className="decrement-button"
-              onClick={() => this.setState({ counter: this.state.counter - 1 })}
-            >
-              -
-            </button>
-            <div className="counter-text">{this.state.counter}</div>
-            <button
-              className="increment-button"
-              onClick={() => this.setState({ counter: this.state.counter + 1 })}
-            >
-              +
-            </button>
-          </div>
-        </p>
-      </div>
+      <>
+        <audio id="player" controls>
+          <source id="audio" src={music} type="audio/mpeg" />
+        </audio>
+        <canvas id="canvas" width={200} height={100} />
+      </>
     );
   }
 }
