@@ -110,8 +110,8 @@ const hostConfig = {
 
 const ReactReconcilerInstance = reconciler(traceWrap(hostConfig));
 
-export default {
-  render: (reactElement, domElement, callback) => {
+const ReactTyping = {
+  render(reactElement, domElement, callback) {
     // console.log(arguments);
     if (!domElement._rootContainer) {
       domElement._rootContainer = ReactReconcilerInstance.createContainer(
@@ -128,3 +128,5 @@ export default {
     );
   },
 };
+
+export default ReactTyping;
