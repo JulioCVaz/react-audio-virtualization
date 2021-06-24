@@ -13,15 +13,20 @@ export class ReactTyping extends Component {
   };
 
   render() {
+    const { inputText } = this.state;
+    console.log(`%c ${inputText}`, "color: #FFF; background: #039dfc;");
     return (
-      <div className="container shake-opacity">
-        <textarea
-          className="textarea"
-          type="text"
-          value={this.state.inputText}
-          onKeyUp={this.updateInputText}
-        />
-      </div>
+      <>
+        <h1>Crazy Textarea</h1>
+        <div className="container shake-opacity shake-constant shake-freeze">
+          <textarea
+            className="textarea"
+            type="text"
+            value={inputText}
+            onKeyUp={this.updateInputText}
+          />
+        </div>
+      </>
     );
   }
 }
