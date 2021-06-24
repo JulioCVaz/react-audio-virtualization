@@ -13,16 +13,15 @@ export class ReactTyping extends Component {
   };
 
   render() {
-    console.log(this.state.inputText);
     return (
-      <>
+      <div className="container shake-opacity">
         <textarea
-          className="container"
+          className="textarea"
           type="text"
           value={this.state.inputText}
           onKeyUp={this.updateInputText}
         />
-      </>
+      </div>
     );
   }
 }
