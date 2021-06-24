@@ -31,19 +31,21 @@ class App extends Component {
 
     for (var i = 0; i < bars; i++) {
       //divide a circle into equal part
-      const rads = (Math.PI * 2) / bars;
+      // const rads = (Math.PI * 2) / bars;
 
       //   // Math is magical
 
       bar_height = this.frequency_array[1] * 2;
       console.log(bar_height);
-      this.setState({ ...this.state, test: bar_height });
-      // console.log(bar_height);
 
-      const x = center_x + Math.cos(rads * i) * radius;
-      const y = center_y + Math.sin(rads * i) * radius;
-      x_end = center_x + Math.cos(rads * i) * (radius + bar_height);
-      y_end = center_y + Math.sin(rads * i) * (radius + bar_height);
+      if(this.state.test !== bar_height) {
+        this.setState({ ...this.state, test: bar_height });
+      }
+
+      // const x = center_x + Math.cos(rads * i) * radius;
+      // const y = center_y + Math.sin(rads * i) * radius;
+      // x_end = center_x + Math.cos(rads * i) * (radius + bar_height);
+      // y_end = center_y + Math.sin(rads * i) * (radius + bar_height);
 
       //draw a bar
       // this.drawBar(x, y, x_end, y_end, this.frequency_array[i], ctx, canvas);
