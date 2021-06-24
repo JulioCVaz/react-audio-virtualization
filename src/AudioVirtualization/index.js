@@ -1,6 +1,5 @@
 import reconciler from "react-reconciler";
 import { createVisualiser } from "./helpers/visualizer";
-import { renderFrame } from "./helpers/renderFrame";
 
 function traceWrap(hostConfig) {
   let traceWrappedHostConfig = {};
@@ -24,8 +23,12 @@ const hostConfig = {
   now: Date.now, // optional?
   getRootHostContext: () => rootHostContext,
   getChildHostContext: () => childHostContext,
+  getPublicInstance: (instance) => {
+    return instance;
+  },
   prepareForCommit: () => {},
   resetAfterCommit: () => {},
+  removeChildFromContainer: () => {},
   shouldSetTextContent: (type, props) => {
     return (
       typeof props.children === "string" || typeof props.children === "number"
@@ -54,11 +57,7 @@ const hostConfig = {
         domElement.setAttribute(propName, propValue);
       }
     });
-    domElement.addEventListener(
-      "play",
-      () => {}
-      // requestAnimationFrame(renderFrame)
-    );
+
     return domElement;
   },
   createTextInstance: () => {},
@@ -72,17 +71,15 @@ const hostConfig = {
     parent.appendChild(child);
   },
   finalizeInitialChildren: (domElement, type, props) => {
-    if (props?.id === "player") {
-      visualizerContext.player = domElement;
-    }
-
-    if (props?.id === "canvas") {
-      visualizerContext.visualiser = domElement;
-    }
-
-    if (visualizerContext.player && visualizerContext.visualiser) {
-      createVisualiser(visualizerContext.player, visualizerContext.visualiser);
-    }
+    // if (props?.id === "player") {
+    //   visualizerContext.player = domElement;
+    // }
+    // if (props?.id === "canvas") {
+    //   visualizerContext.visualiser = domElement;
+    // }
+    // if (visualizerContext.player && visualizerContext.visualiser) {
+    //   createVisualiser(visualizerContext.player, visualizerContext.visualiser);
+    // }
   },
   prepareUpdate(domElement, prevProps, nextProps) {
     console.log("prepareUpdate....");
@@ -108,6 +105,7 @@ const hostConfig = {
     parentInstance.removeChild(child);
   },
   clearContainer: () => {},
+  supportsPersistence: true,
   supportsMutation: true,
 };
 
