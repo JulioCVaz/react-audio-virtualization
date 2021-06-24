@@ -1,15 +1,25 @@
 import reconciler from "react-reconciler";
-import { createVisualiser } from "./helpers/visualizer";
+
+const keyTypes = {
+  createInstance: "color: #FFF; font-size: 18px; background: #F2542D;",
+  prepareUpdate: "color: #FFF; background: #fc1303;",
+  prepareForCommit: "color: #000; background: #fcf803;",
+  commitUpdate: "color: #FFF; background: #0ea800;",
+};
 
 function traceWrap(hostConfig) {
   let traceWrappedHostConfig = {};
-  Object.keys(hostConfig).map((key) => {
+  Object.keys(hostConfig).forEach((key) => {
     const func = hostConfig[key];
     traceWrappedHostConfig[key] = (...args) => {
-        console.groupCollapsed(`%c ${key}`, 'background: #222; color: #bada55');
-        console.trace(key);
-        console.groupEnd();
-
+      //   if (keyTypes[key]) {
+      //     console.groupCollapsed(`%c ${key}`, keyTypes[key]);
+      //     console.trace(key);
+      //     console.groupEnd();
+      //   }
+      console.groupCollapsed(`${key}`);
+      console.trace(key);
+      console.groupEnd();
       return func(...args);
     };
   });
@@ -18,8 +28,6 @@ function traceWrap(hostConfig) {
 
 const rootHostContext = {};
 const childHostContext = {};
-const visualizerContext = {};
-
 const hostConfig = {
   now: Date.now, // optional?
   getRootHostContext: () => rootHostContext,
@@ -53,6 +61,10 @@ const hostConfig = {
         domElement.addEventListener("click", propValue);
       } else if (propName === "className") {
         domElement.setAttribute("class", propValue);
+      } else if (propName === "onChange") {
+        domElement.addEventListener("change", propValue);
+      } else if (propName === "onKeyUp") {
+        domElement.addEventListener("keyup", propValue);
       } else {
         const propValue = newProps[propName];
         domElement.setAttribute(propName, propValue);
@@ -71,19 +83,8 @@ const hostConfig = {
   appendChildToContainer: (parent, child) => {
     parent.appendChild(child);
   },
-  finalizeInitialChildren: (domElement, type, props) => {
-    // if (props?.id === "player") {
-    //   visualizerContext.player = domElement;
-    // }
-    // if (props?.id === "canvas") {
-    //   visualizerContext.visualiser = domElement;
-    // }
-    // if (visualizerContext.player && visualizerContext.visualiser) {
-    //   createVisualiser(visualizerContext.player, visualizerContext.visualiser);
-    // }
-  },
+  finalizeInitialChildren: (domElement, type, props) => {},
   prepareUpdate(domElement, prevProps, nextProps) {
-    console.log("prepareUpdate....");
     return true;
   },
   commitUpdate: (domElement, updatePayload, type, oldProps, newProps) => {
@@ -115,7 +116,6 @@ const ReactReconcilerInstance = reconciler(traceWrap(hostConfig));
 export default {
   render: (reactElement, domElement, callback) => {
     // console.log(arguments);
-    // create a root if doenst exists
     if (!domElement._rootContainer) {
       domElement._rootContainer = ReactReconcilerInstance.createContainer(
         domElement,

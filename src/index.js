@@ -1,5 +1,5 @@
 import React from "react";
-import AudioVirtualization from "./AudioVirtualization";
-import App from "./App";
+import ReactTyping from "./renders/ReactTyping";
+import { ReactTyping as ReactTypingComponent } from "./ReactTyping";
 
-AudioVirtualization.render(<App />, document.getElementById("root"));
+ReactTyping.render(<ReactTypingComponent />, document.getElementById("root"));
