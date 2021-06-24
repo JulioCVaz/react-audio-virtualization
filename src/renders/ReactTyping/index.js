@@ -12,14 +12,11 @@ function traceWrap(hostConfig) {
   Object.keys(hostConfig).forEach((key) => {
     const func = hostConfig[key];
     traceWrappedHostConfig[key] = (...args) => {
-      //   if (keyTypes[key]) {
-      //     console.groupCollapsed(`%c ${key}`, keyTypes[key]);
-      //     console.trace(key);
-      //     console.groupEnd();
-      //   }
-      console.groupCollapsed(`${key}`);
-      console.trace(key);
-      console.groupEnd();
+      if (keyTypes[key]) {
+        console.groupCollapsed(`%c ${key}`, keyTypes[key]);
+        console.trace(key);
+        console.groupEnd();
+      }
       return func(...args);
     };
   });

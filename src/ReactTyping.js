@@ -1,5 +1,5 @@
 import { Component } from "react";
-
+import "./assets/styles/styles.css";
 export class ReactTyping extends Component {
   constructor(props) {
     super(props);
@@ -16,7 +16,8 @@ export class ReactTyping extends Component {
     console.log(this.state.inputText);
     return (
       <>
-        <input
+        <textarea
+          className="container"
           type="text"
           value={this.state.inputText}
           onKeyUp={this.updateInputText}
